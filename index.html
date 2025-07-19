@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Furnish Creations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
+
+  </head>
+  <body>
+    <header>
+      <div class="page-width container">
+        <img src="Assets/Group 1 (2).png" alt="Furnish Creations Logo">
+        <div class="header-ctas">
+          <a href="tel:+918700322846" target="_blank"
+            class="header_cta_call">Call
+            Us</a>
+          <a href="https://wa.me/918700322846?text=Hi"
+            target="_blank"
+            class="header_cta_whatsapp">WhatsApp Us</a>
+        </div>
+      </div>
+    </header>
+    <a class="fixed-whatsapp-cta"
+      href="https://wa.me/918700322846?text=Hi"
+      target="_blank"
+      rel="noopener noreferrer">
+      <img src="Assets/WhatsApp.svg" alt="WhatsApp Icon">
+      <span>Get Quote</span>
+    </a>
+    <section class="section-1" id="homeSection">
+      <img src="Assets/2150794641 (1).jpg">
+      <img class="image_2"
+        src="Assets/dark-green-watercolor-brush-stroke-paint-png_806326-2446 (1).png">
+      <h1 class="fade-in">Custom Furniture, Crafted Just for You</h1>
+      <p class="fade-in">Bring your dream designs to life with fully customized
+        furniture made
+        to match your style, space, and needs. Handcrafted with care and quality
+        that lasts.</p>
+      <button class="fade-in">
+        Show More
+      </button>
+    </section>
+    <section class="page-width section-2">
+      <div class="carousel-container">
+        <div class="fade-in carousel-track">
+          <div class="carousel-card"><img
+              draggable="false"
+              src="Assets/Section 2/1.jpg" /></div>
+          <div class="carousel-card"><img
+              draggable="false"
+              src="Assets/Section 2/2.jpg" /></div>
+          <div class="carousel-card"><img
+              draggable="false"
+              src="Assets/Section 2/3.jpg" /></div>
+          <div class="carousel-card"><img
+              draggable="false"
+              src="Assets/Section 2/4.jpg" /></div>
+          <div class="carousel-card"><img
+              draggable="false"
+              src="Assets/Section 2/5.jpg" /></div>
+          <div class="carousel-card"><img
+              draggable="false"
+              src="Assets/Section 2/6.jpg" /></div>
+          <div class="carousel-card"><img
+              draggable="false"
+              src="Assets/Section 2/7.jpg" /></div>
+          <div class="carousel-card"><img
+              draggable="false"
+              src="Assets/Section 2/8.jpg" /></div>
+          <div class="carousel-card"><img
+              draggable="false"
+              src="Assets/Section 2/9.jpg" /></div>
+          <div class="carousel-card"><img
+              draggable="false"
+              src="Assets/Section 2/10.jpg" /></div>
+        </div>
+      </div>
+      <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const container = document.querySelector(".carousel-container");
+  const track = document.querySelector(".carousel-track");
+  const cards = Array.from(track.children);
+  const cardWidth = cards[0].offsetWidth + 60;
+
+  const buffer = 2;
+  let x = 0, targetX = 0;
+  let autoScrollSpeed = -0.8; // negative = scroll left, positive = scroll right
+  let isDragging = false, startX = 0, lastX = 0, velocity = 0;
+  let lastTime = 0;
+
+  // Clone cards before and after for infinite loop
+  for (let i = -buffer; i <= buffer; i++) {
+    if (i === 0) continue;
+    cards.forEach((card) => {
+      const clone = card.cloneNode(true);
+      track.appendChild(clone);
+    });
+  }
+
+  const totalCards = track.children.length;
+
+  // Smooth lerp
+  const lerp = (a, b, t) => a + (b - a) * t;
+
+function animate() {
+  // Add auto scroll effect
+  if (!isDragging) {
+    targetX += autoScrollSpeed;
+  }
+
+  x = lerp(x, targetX, 0.05);
+  track.style.transform = `translateX(${x}px)`;
+
+  if (x < -cardWidth * cards.length) {
+    x += cardWidth * cards.length;
+    targetX = x;
+  }
+  if (x > 0) {
+    x -= cardWidth * cards.length;
+    targetX = x;
+  }
+
+  requestAnimationFrame(animate);
+}
+
+  animate();
+
+  // Drag events
+  container.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    startX = e.clientX;
+    lastX = startX;
+    container.style.cursor = "grabbing";
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+    const dx = e.clientX - lastX;
+    lastX = e.clientX;
+    targetX += dx;
+    velocity = dx;
+  });
+
+  window.addEventListener("mouseup", () => {
+    isDragging = false;
+    container.style.cursor = "grab";
+    momentum();
+  });
+
+  // Touch support
+  container.addEventListener("touchstart", (e) => {
+    isDragging = true;
+    startX = e.touches[0].clientX;
+    lastX = startX;
+  });
+
+  container.addEventListener("touchmove", (e) => {
+    if (!isDragging) return;
+    const dx = e.touches[0].clientX - lastX;
+    lastX = e.touches[0].clientX;
+    targetX += dx;
+    velocity = dx;
+  });
+
+  container.addEventListener("touchend", () => {
+    isDragging = false;
+    momentum();
+  });
+
+  // Momentum after drag
+  function momentum() {
+    const decay = () => {
+      if (Math.abs(velocity) > 0.1) {
+        targetX += velocity;
+        velocity *= 0.95;
+        requestAnimationFrame(decay);
+      }
+    };
+    requestAnimationFrame(decay);
+  }
+});
+</script>
+    </section>
+    <section class="fade-in quotation-section">
+      <div class="quotation-content">
+        <h2>Get a Free Quotation</h2>
+        <p>Need custom-made furniture? Get a quick quote for sofas, beds, tables
+          & more — built just the way you want. Chat with us now on
+          WhatsApp.</p>
+        <a
+          href="https://wa.me/918700322846?text=Hi, I would like to get a quotation."
+          target="_blank"
+          rel="noopener noreferrer"
+          class="whatsapp-cta">
+          <img src="Assets/WhatsApp.svg" alt="WhatsApp Icon">
+          Chat with Us
+        </a>
+      </div>
+    </section>
+    <section class="fade-in section-3" id="furnishSection">
+      <h2 class="section-heading-white-bg">Furnish It All</h2>
+      <div class="tabs">
+        <div class="page-width tab-list">
+          <div class="tab" data-tab="sofas">SOFAS</div>
+          <div class="tab" data-tab="chairs">CHAIRS</div>
+          <div class="tab" data-tab="beds">BEDS</div>
+          <div class="tab" data-tab="office">OFFICE</div>
+          <div class="tab" data-tab="interior">INTERIOR</div>
+        </div>
+
+        <!-- Active tab + tab-info overlay wrapper -->
+        <div class="active-tab-info" id="activeTabInfo">
+          <div class="active-tab-info-inner page-width">
+            <div class="active-tab-label" id="activeTabLabel">SOFAS</div>
+            <div class="tab-info" id="tabInfo">
+              <p>Relax in style with our handcrafted sofas and recliners. Each
+                piece is custom-built using premium materials, offering
+                ergonomic support and luxurious comfort. Choose from modern,
+                classic, or contemporary designs tailored to your space and
+                lifestyle.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+const tabs = document.querySelectorAll(".tab");
+const tabInfo = document.getElementById("tabInfo");
+const activeTabLabel = document.getElementById("activeTabLabel");
+const activeTabInfo = document.getElementById("activeTabInfo");
+const section = document.getElementById("furnishSection");
+
+const tabData = {
+  sofas: {
+    bg: "Assets/Section 3/SOFA.jpg",
+    label: "SOFAS",
+    content: `Relax in style with our handcrafted sofas and recliners. Each piece is custom-built using premium materials, offering ergonomic support and luxurious comfort. Choose from modern, classic, or contemporary designs tailored to your space and lifestyle.`
+  },
+  chairs: {
+    bg: "Assets/Section 3/CHAIRS.jpg",
+    label: "CHAIRS",
+    content: `Whether it's a cozy reading chair, a sleek dining seat, or an ergonomic office chair, our custom designs bring together comfort and personality. Built with precision and styled to fit any décor, our chairs are as durable as they are elegant.`
+  },
+  beds: {
+    bg: "Assets/Section 3/BED.jpg",
+    label: "BEDS",
+    content: `Experience comfort redefined with our custom-made beds. From statement headboards to storage-integrated frames and premium finishes, every bed is designed to complement your space while offering restful support for years to come.`
+  },
+  office: {
+    bg: "Assets/Section 3/OFFICE.jpg",
+    label: "OFFICE",
+    content: `From executive desks and conference tables to modular workstations and smart storage solutions, we craft custom office furniture that enhances productivity and reflects your brand identity. Designed for comfort. Built for performance.`
+  },
+  interior: {
+    bg: "Assets/Section 3/INTERIOR.jpg",
+    label: "INTERIOR",
+    content: `Go beyond furniture. Our experienced team offers complete interior solutions — from space planning and moodboarding to custom furnishing and décor alignment. Whether residential or commercial, we transform every corner with design that speaks.`
+  }
+};
+
+let currentTab = 0;
+const tabKeys = Object.keys(tabData);
+
+function activateTab(key) {
+  tabs.forEach(tab => tab.classList.remove("active"));
+  const activeTab = document.querySelector(`[data-tab='${key}']`);
+  activeTab.classList.add("active");
+
+  // Update content
+  tabInfo.innerHTML = `<p>${tabData[key].content}</p>`;
+  activeTabLabel.textContent = tabData[key].label;
+
+  // Animate background
+  gsap.to(section, {
+    duration: 1,
+    backgroundImage: `url('${tabData[key].bg}')`
+  });
+
+  // Move the .active-tab-info element right after the active tab
+  if (window.innerWidth < 769) {
+    const tabList = document.querySelector(".tab-list");
+    tabList.parentNode.insertBefore(activeTabInfo, activeTab.nextSibling);
+  } else {
+    const topOffset = activeTab.offsetTop;
+    activeTabInfo.style.top = `${topOffset}px`;
+  }
+}
+
+
+tabs.forEach(tab => {
+  tab.addEventListener("click", () => {
+    const key = tab.dataset.tab;
+    activateTab(key);
+    currentTab = tabKeys.indexOf(key);
+  });
+});
+
+// Auto cycle
+setInterval(() => {
+  currentTab = (currentTab + 1) % tabKeys.length;
+  activateTab(tabKeys[currentTab]);
+}, 6000);
+
+// Initial state
+section.style.backgroundImage = `url('${tabData.sofas.bg}')`;
+activeTabInfo.style.top = `${tabs[0].offsetTop}px`;
+  </script>
+    </section>
+    <section class="our-story-section" id="ourStory">
+      <div class="page-width our-story-content">
+        <h2 class="fade-in">Our Story</h2>
+        <p class="fade-in">
+          At Furnish Creations, we don’t just build furniture — we bring ideas
+          to life. What started over 25 years ago as a passion for handcrafted
+          design has grown into a trusted name in bespoke furniture solutions.
+          Our work combines craftsmanship, creativity, and deep attention to
+          detail to bring every client's vision to life.
+        </p>
+        <div class="our-milestones">
+          <div class="milestone">
+            <div class="counter" data-target="25">0</div>
+            <span>Years of Experience</span>
+          </div>
+          <div class="milestone">
+            <div class="counter" data-target="5000">0</div>
+            <span>Projects Completed</span>
+          </div>
+        </div>
+        <p class="fade-in">
+          With over 5000 completed projects and a portfolio ranging from cozy
+          apartments to full-scale interiors, our journey has always been driven
+          by our clients’ unique needs. Whether you’re looking for a single
+          custom piece or an entire space transformation, we’re here to make it
+          happen.
+        </p>
+        <p class="fade-in">
+          If you’d like to explore our materials, see our finishes up close, or
+          have a conversation about your space:
+        </p>
+        <div class="map-section">
+          <div class="map-block">
+            <h3>Visit Us in Delhi: C-586, Pocket 11, Jasola, New Delhi -
+              110025</h3>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.656029535088!2d77.28884217585137!3d28.550056887820666!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce4061c904f41%3A0xa62f595495dc4614!2sC%20Block%20Rd%2C%20Jasola%20Vihar%2C%20New%20Delhi%2C%20Delhi%20110025!5e0!3m2!1sen!2sin!4v1752574503672!5m2!1sen!2sin"
+              width="100%" height="350" style="border:0;" allowfullscreen
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+
+          <div class="map-block">
+            <h3>Visit Us in Gurugram: Opp. Petrol Pump, near DLF Phase 5,
+              Gurugram</h3>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d416.88686121820064!2d77.0908900579812!3d28.4497520742258!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d18b7f6c90293%3A0x62555fb77d2b905!2sBharat%20Petroleum%20Retail%20Outlet!5e0!3m2!1sen!2sin!4v1752574579558!5m2!1sen!2sin"
+              width="100%" height="350" style="border:0;" allowfullscreen
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  const isMobile = window.innerWidth < 769;
+
+  if (!isMobile) {
+    // Fade-in content
+    gsap.utils.toArray(".fade-in").forEach(el => {
+      gsap.from(el, {
+        scrollTrigger: {
+          trigger: el,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+        opacity: 0,
+        y: 40,
+        duration: 1,
+        ease: "power3.out"
+      });
+    });
+
+    // Slide in addresses
+    gsap.from(".fade-slide", {
+      scrollTrigger: {
+        trigger: "#ourStory",
+        start: "top 80%",
+      },
+      opacity: 0,
+      x: -50,
+      duration: 1,
+      delay: 0.6,
+      ease: "power3.out"
+    });
+  }
+
+  // ✅ Run counters on all devices
+  const counters = document.querySelectorAll(".counter");
+
+  counters.forEach(counter => {
+    const target = +counter.getAttribute("data-target");
+    const duration = 2;
+    const count = { value: 0 };
+
+    const animationOptions = {
+      value: target,
+      duration: duration,
+      ease: "power3.out",
+      onUpdate: () => {
+        counter.textContent = Math.floor(count.value);
+      },
+      onComplete: () => {
+        if (target === 25 || target === 5000) {
+          counter.textContent = `${target}+`;
+        }
+      }
+    };
+
+    // Use ScrollTrigger only on non-mobile
+    if (!isMobile) {
+      animationOptions.scrollTrigger = {
+        trigger: counter,
+        start: "top 90%",
+        once: true
+      };
+    }
+
+    gsap.to(count, animationOptions);
+  });
+</script>
+
+    <section class="fade-in page-width gallery-section" id="seeOurWork">
+
+      <div class="category-buttons">
+        <div class="rotating-badge-wrapper">
+          <svg class="rotating-badge" viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg">
+            <polygon fill="#79a799" points="
+      100,0 112,22 135,10 140,35 165,30 160,55
+      185,60 170,80 190,100 170,120 185,140 160,145
+      165,170 140,165 135,190 112,178 100,200 88,178
+      65,190 60,165 35,170 40,145 15,140 30,120
+      10,100 30,80 15,60 40,55 35,30 60,35
+      65,10 88,22" />
+          </svg>
+          <div class="badge-text">See Our Work</div>
+        </div>
+        <button class="category-btn active" data-gallery="Sofas">Sofas</button>
+        <button class="category-btn" data-gallery="Interiors">Interiors</button>
+        <button class="category-btn" data-gallery="Chairs">Chairs</button>
+        <button class="category-btn" data-gallery="Beds">Beds</button>
+        <button class="category-btn" data-gallery="Offices">Offices</button>
+      </div>
+
+      <div class=" gallery-display">
+        <div class="image-collection active" data-gallery="Sofas">
+          <img src="Assets/Sofa/Sofa (1).jpg" alt>
+          <img src="Assets/Sofa/Sofa (2).jpg" alt>
+          <img src="Assets/Sofa/Sofa (3).jpg" alt>
+          <img src="Assets/Sofa/Sofa (4).jpg" alt>
+          <img src="Assets/Sofa/Sofa (5).jpg" alt>
+          <img src="Assets/Sofa/Sofa (6).jpg" alt>
+          <img src="Assets/Sofa/Sofa (7).jpg" alt>
+          <img src="Assets/Sofa/Sofa (8).jpg" alt>
+          <img src="Assets/Sofa/Sofa (9).jpg" alt>
+          <img src="Assets/Sofa/Sofa (10).jpg" alt>
+          <img src="Assets/Sofa/Sofa (11).jpg" alt>
+          <img src="Assets/Sofa/Sofa (12).jpg" alt>
+          <img src="Assets/Sofa/Sofa (13).jpg" alt>
+          <img src="Assets/Sofa/Sofa (14).jpg" alt>
+          <img src="Assets/Sofa/Sofa (15).jpg" alt>
+          <img src="Assets/Sofa/Sofa (16).jpg" alt>
+          <img src="Assets/Sofa/Sofa (17).jpg" alt>
+          <img src="Assets/Sofa/Sofa (18).jpg" alt>
+          <img src="Assets/Sofa/Sofa (19).jpg" alt>
+          <img src="Assets/Sofa/Sofa (20).jpg" alt>
+          <img src="Assets/Sofa/Sofa (21).jpg" alt>
+          <img src="Assets/Sofa/Sofa (22).jpg" alt>
+          <img src="Assets/Sofa/Sofa (23).jpg" alt>
+          <img src="Assets/Sofa/Sofa (24).jpg" alt>
+          <img src="Assets/Sofa/Sofa (25).jpg" alt>
+          <img src="Assets/Sofa/Sofa (26).jpg" alt>
+        </div>
+
+        <div class="image-collection" data-gallery="Chairs">
+          <img src="Assets/Chair/Chair (4).jpg" alt>
+          <img src="Assets/Chair/Chair (13).jpg" alt>
+          <img src="Assets/Chair/Chair (9).jpg" alt>
+          <img src="Assets/Chair/Chair (1).jpg" alt>
+          <img src="Assets/Chair/Chair (14).jpg" alt>
+          <img src="Assets/Chair/Chair (2).jpg" alt>
+          <img src="Assets/Chair/Chair (3).jpg" alt>
+          <img src="Assets/Chair/Chair (5).jpg" alt>
+          <img src="Assets/Chair/Chair (6).jpg" alt>
+          <img src="Assets/Chair/Chair (7).jpg" alt>
+          <img src="Assets/Chair/Chair (8).jpg" alt>
+          <img src="Assets/Chair/Chair (10).jpg" alt>
+          <img src="Assets/Chair/Chair (11).jpg" alt>
+          <img src="Assets/Chair/Chair (12).jpg" alt>
+          <img src="Assets/Chair/Chair (15).jpg" alt>
+          <img src="Assets/Chair/Chair (16).jpg" alt>
+        </div>
+
+        <div class="image-collection" data-gallery="Beds">
+          <img src="Assets/Beds/Bed (45).jpg" alt>
+          <img src="Assets/Beds/Bed (44).jpg" alt>
+          <img src="Assets/Beds/Bed (21).jpg" alt>
+          <img src="Assets/Beds/Bed (1).jpg" alt>
+          <img src="Assets/Beds/Bed (2).jpg" alt>
+          <img src="Assets/Beds/Bed (3).jpg" alt>
+          <img src="Assets/Beds/Bed (4).jpg" alt>
+          <img src="Assets/Beds/Bed (5).jpg" alt>
+          <img src="Assets/Beds/Bed (6).jpg" alt>
+          <img src="Assets/Beds/Bed (7).jpg" alt>
+          <img src="Assets/Beds/Bed (8).jpg" alt>
+          <img src="Assets/Beds/Bed (9).jpg" alt>
+          <img src="Assets/Beds/Bed (10).jpg" alt>
+          <img src="Assets/Beds/Bed (11).jpg" alt>
+          <img src="Assets/Beds/Bed (12).jpg" alt>
+          <img src="Assets/Beds/Bed (13).jpg" alt>
+          <img src="Assets/Beds/Bed (14).jpg" alt>
+          <img src="Assets/Beds/Bed (15).jpg" alt>
+          <img src="Assets/Beds/Bed (16).jpg" alt>
+          <img src="Assets/Beds/Bed (17).jpg" alt>
+          <img src="Assets/Beds/Bed (18).jpg" alt>
+          <img src="Assets/Beds/Bed (19).jpg" alt>
+          <img src="Assets/Beds/Bed (20).jpg" alt>
+          <img src="Assets/Beds/Bed (22).jpg" alt>
+          <img src="Assets/Beds/Bed (23).jpg" alt>
+          <img src="Assets/Beds/Bed (24).jpg" alt>
+          <img src="Assets/Beds/Bed (25).jpg" alt>
+          <img src="Assets/Beds/Bed (26).jpg" alt>
+          <img src="Assets/Beds/Bed (27).jpg" alt>
+          <img src="Assets/Beds/Bed (28).jpg" alt>
+          <img src="Assets/Beds/Bed (29).jpg" alt>
+          <img src="Assets/Beds/Bed (30).jpg" alt>
+          <img src="Assets/Beds/Bed (31).jpg" alt>
+          <img src="Assets/Beds/Bed (32).jpg" alt>
+          <img src="Assets/Beds/Bed (33).jpg" alt>
+          <img src="Assets/Beds/Bed (34).jpg" alt>
+          <img src="Assets/Beds/Bed (35).jpg" alt>
+          <img src="Assets/Beds/Bed (36).jpg" alt>
+          <img src="Assets/Beds/Bed (37).jpg" alt>
+          <img src="Assets/Beds/Bed (38).jpg" alt>
+          <img src="Assets/Beds/Bed (39).jpg" alt>
+          <img src="Assets/Beds/Bed (40).jpg" alt>
+          <img src="Assets/Beds/Bed (41).jpg" alt>
+          <img src="Assets/Beds/Bed (42).jpg" alt>
+          <img src="Assets/Beds/Bed (43).jpg" alt>
+        </div>
+
+        <div class="image-collection" data-gallery="Offices">
+          <img src="Assets/Kitchen/1.jpg" alt>
+          <img src="Assets/Kitchen/2.jpg" alt>
+        </div>
+        <div class="image-collection" data-gallery="Interiors">
+          <img src="Assets/Interior/Interior (1).jpg" alt>
+          <img src="Assets/Interior/Interior (2).jpg" alt>
+          <img src="Assets/Interior/Interior (3).jpg" alt>
+          <img src="Assets/Interior/Interior (4).jpg" alt>
+        </div>
+      </div>
+      <script>
+  const buttons = document.querySelectorAll(".category-btn");
+  const galleries = document.querySelectorAll(".image-collection");
+
+  buttons.forEach(button => {
+    button.addEventListener("click", () => {
+      // Remove active class
+      buttons.forEach(btn => btn.classList.remove("active"));
+      galleries.forEach(grid => grid.classList.remove("active"));
+
+      // Activate selected
+      button.classList.add("active");
+      const target = button.getAttribute("data-gallery");
+      document.querySelector(`.image-collection[data-gallery="${target}"]`).classList.add("active");
+    });
+  });
+</script>
+    </section>
+    <section class="page-width testimonial-section">
+      <h2 class="section-title">What Our Clients Say</h2>
+      <div class="testimonial-track-wrapper">
+        <div class="testimonial-track">
+          <div class="testimonial">
+            <div class="testimonial-content">“Absolutely loved the work! Super
+              smooth process and excellent results.”</div>
+            <div class="testimonial-name">Aisha Malik</div>
+          </div>
+          <div class="testimonial">
+            <div class="testimonial-content">“The team was professional, quick,
+              and the quality was top-notch. Highly recommend.”</div>
+            <div class="testimonial-name">Karan Mehta</div>
+          </div>
+          <div class="testimonial">
+            <div class="testimonial-content">“Reliable service and great
+              communication throughout the project.”</div>
+            <div class="testimonial-name">Neha Verma</div>
+          </div>
+          <div class="testimonial">
+            <div class="testimonial-content">“They understood exactly what I
+              wanted. The outcome was perfect.”</div>
+            <div class="testimonial-name">Aarav Singh</div>
+          </div>
+          <div class="testimonial">
+            <div class="testimonial-content">“Truly impressive from start to
+              finish. Will definitely work with them again.”</div>
+            <div class="testimonial-name">Zoya Khan</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script>
+  const track = document.querySelector(".testimonial-track");
+  const wrapper = document.querySelector(".testimonial-track-wrapper");
+
+  // Duplicate items for seamless infinite scroll
+  const testimonials = gsap.utils.toArray(".testimonial");
+  testimonials.forEach(t => {
+    const clone = t.cloneNode(true);
+    track.appendChild(clone);
+  });
+
+  let x = 0;
+  let speed = 0.5;
+
+  function animateTrack() {
+    x -= speed;
+    if (Math.abs(x) >= track.scrollWidth / 2) {
+      x = 0;
+    }
+    gsap.set(track, { x });
+    requestAnimationFrame(animateTrack);
+  }
+
+  animateTrack();
+
+  Draggable.create(track, {
+    type: "x",
+    inertia: true,
+    onPress() {
+      speed = 0;
+    },
+    onDrag() {
+      x = this.x;
+    },
+    onRelease() {
+      speed = 0.5;
+    }
+  });
+</script>
+
+    <footer>
+      <div class="page-width footer-content">
+        <div class="footer-logo">
+          <img src="Assets/Group 1 (2).png" alt="Furnish Creations Logo">
+        </div>
+        <div class="footer-links">
+          <a href="#furnishSection">What We Do</a>
+          <span>|</span>
+          <a href="#ourStory">Our Story</a>
+          <span>|</span>
+          <a href="#seeOurWork">See Our Work</a>
+          <span>|</span>
+          <a href="#homeSection">Go to Top</a>
+
+        </div>
+        <div class="footer-contact">
+          <div class="header-ctas">
+            <a href="tel:+918700322846" target="_blank"
+              class="header_cta_call">Call
+              Us</a>
+            <a href="https://wa.me/918700322846?text=Hi"
+              target="_blank"
+              class="header_cta_whatsapp">WhatsApp Us</a>
+          </div>
+        </footer>
+      </body>
+    </html>
