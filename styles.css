@@ -135,6 +135,7 @@ header::before {
     height: 100%;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(5px);
+    background-color: #153229;
     pointer-events: none;
     z-index: -1;
     mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
@@ -187,8 +188,15 @@ header .container {
     padding: 20px 60px;
     border-radius: 200px;
 }
+#logo path,
+#logo rect,
+#logo circle,
+#logo polygon,
+#logo g {
+  transition: fill 0.3s ease;
+}
 
-header img {
+header svg {
     width: 190px;
     height: auto;
 }
@@ -910,7 +918,7 @@ h2.section-title {
         height: 600px;
     }
 
-    header img {
+    header svg {
         width: 160px;
     }
 
@@ -1157,7 +1165,7 @@ h2.section-title {
 }
 
 @media(max-width: 500px) {
-    header img {
+    header svg {
         width: 130px;
     }
 }
