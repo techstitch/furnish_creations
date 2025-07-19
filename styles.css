@@ -350,7 +350,7 @@ header img {
     border-radius: 500px;
     justify-content: center;
     align-items: center;
-    padding: 15px;
+    padding: 8px 15px;
     gap: 7px;
     text-decoration: none;
     animation: softFlash 2.5s ease-in-out infinite;
@@ -1153,5 +1153,11 @@ h2.section-title {
     .footer-contact .header-ctas a {
         font-size: 1.2rem;
         padding: 23px;
+    }
+}
+
+@media(max-width: 500px) {
+    header img {
+        width: 130px;
     }
 }
