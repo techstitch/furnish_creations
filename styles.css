@@ -188,12 +188,13 @@ header .container {
     padding: 20px 60px;
     border-radius: 200px;
 }
+
 #logo path,
 #logo rect,
 #logo circle,
 #logo polygon,
 #logo g {
-  transition: fill 0.3s ease;
+    transition: fill 0.3s ease;
 }
 
 header svg {
@@ -211,13 +212,22 @@ header svg {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
     position: relative;
     overflow: hidden;
     width: 100%;
     height: 100vh;
     max-width: unset;
     backdrop-filter: blur(12px);
+    gap: 50px;
+}
+
+.section-1 .section-1-content_1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    position: relative;
+    width: 40%;
 }
 
 .section-1 img {
@@ -232,21 +242,21 @@ header svg {
 
 .section-1 h1 {
     font-family: "CabinetGrotesk-Bold", sans-serif;
-    text-align: center;
+    text-align: left;
     font-size: 3rem;
     margin-bottom: 20px;
     color: #f9f8f0;
-    width: 620px;
+    width: 100%;
     font-weight: 600;
     letter-spacing: 0;
 }
 
 .section-1 p {
     font-family: "CabinetGrotesk-Regular", sans-serif;
-    text-align: center;
+    text-align: left;
     font-size: .9rem;
     color: #f9f8f0;
-    width: 620px;
+    width: 100%;
     font-weight: 200;
     letter-spacing: 0;
 }
@@ -291,10 +301,10 @@ header svg {
 }
 
 .section-1 .image_2 {
-    width: 47%;
+    width: 110%;
     left: 51%;
     top: 48%;
-    opacity: .6;
+    opacity: .3;
     transform: translate(-50%, -50%) rotate(6deg);
 }
 
@@ -897,6 +907,99 @@ h2.section-title {
     margin-right: auto;
 }
 
+/* Form */
+.lead-form {
+    width: 30%;
+    margin: 0;
+    background: #25584999;
+    padding: 30px;
+    color: #fff;
+    border-radius: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: "CabinetGrotesk-Medium", sans-serif;
+    border: solid 1px #fff;
+}
+
+.lead-form h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    font-family: "CabinetGrotesk-Extrabold", sans-serif;
+}
+
+.lead-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.95rem;
+}
+
+/* Form row structure */
+.form-row {
+    display: flex;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.form-group {
+    flex: 1;
+}
+
+/* Input & Select styling */
+.lead-form input,
+.lead-form select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+}
+
+.lead-form input {
+    width: calc(100% - 20px) !important;
+}
+
+/* Full-width single field (like name) */
+.lead-form input[type="text"]:not(.form-row input),
+.lead-form input[type="tel"]:not(.form-row input),
+.lead-form input[type="email"]:not(.form-row input) {
+    width: 100%;
+}
+
+/* Submit Button */
+.lead-form button {
+    margin-top: 20px;
+    padding: 12px;
+    width: 100%;
+    background-color: #153229;
+    border: #fff solid 1px;
+    color: white;
+    font-size: 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: "CabinetGrotesk-Extrabold", sans-serif;
+}
+
+.lead-form button:hover {
+    background-color: #fff;
+    color: #153229;
+    transition: all 0.3s ease;
+}
+
+/* Success and error messages */
+.success-msg {
+    text-align: center;
+    margin-top: 15px;
+    color: #00ff99;
+}
+
+.error-msg {
+    text-align: center;
+    margin-top: 15px;
+    color: #ff6b6b;
+}
+
+
 @media(max-width:756px) {
     .page-width {
         padding-left: 20px;
@@ -910,12 +1013,20 @@ h2.section-title {
     }
 
     .section-1 img:first-of-type {
-        height: 600px;
+        height: 980px;
         width: auto;
     }
 
     .section-1 {
-        height: 600px;
+        height: 980px;
+        flex-direction: column;
+        gap: 40px;
+        width: calc(100% - 40px);
+    }
+
+    .section-1 .section-1-content_1 {
+        width: 80%;
+        align-items: center;
     }
 
     header svg {
@@ -939,14 +1050,20 @@ h2.section-title {
     }
 
     .section-1 h1 {
-        width: 80%;
+        width: 100%;
         font-size: 2rem;
         line-height: 2.5rem;
+        text-align: center;
         margin-bottom: 15px;
         font-family: "CabinetGrotesk-Extrabold", sans-serif;
     }
 
     .section-1 p {
+        width: 100%;
+        text-align: center;
+    }
+
+    .lead-form {
         width: 80%;
     }
 

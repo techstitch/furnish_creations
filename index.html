@@ -28,9 +28,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WPP46B8P"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+    <noscript><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-WPP46B8P"
+        height="0" width="0"
+        style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
 
     <header>
       <div class="page-width container">
@@ -66,18 +68,97 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <img src="Assets/WhatsApp.svg" alt="WhatsApp Icon">
       <span>Get Quote</span>
     </a>
-    <section class="section-1" id="homeSection">
+    <section class="page-width section-1" id="homeSection">
       <img src="Assets/2150794641 (1).jpg">
-      <img class="image_2"
-        src="Assets/dark-green-watercolor-brush-stroke-paint-png_806326-2446 (1).png">
-      <h1 class="fade-in">Custom Furniture, Crafted Just for You</h1>
-      <p class="fade-in">Bring your dream designs to life with fully customized
-        furniture made
-        to match your style, space, and needs. Handcrafted with care and quality
-        that lasts.</p>
-      <button class="fade-in">
-        Show More
-      </button>
+      <div class="section-1-content_1">
+        <img class="image_2"
+          src="Assets/dark-green-watercolor-brush-stroke-paint-png_806326-2446 (1).png">
+        <h1 class="fade-in">Custom Furniture, Crafted Just for You</h1>
+        <p class="fade-in">Bring your dream designs to life with fully
+          customized
+          furniture made
+          to match your style, space, and needs. Handcrafted with care and
+          quality
+          that lasts.</p>
+        <button class="fade-in">
+          Show More
+        </button>
+      </div>
+      <form class="lead-form" id="leadForm">
+        <h2>Quick Enquiry</h2>
+
+        <label for="name">Full Name *</label>
+        <input type="text" id="name" name="name" required />
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phone">Phone Number *</label>
+            <input type="tel" id="phone" name="phone" required
+              pattern="[0-9]{10}" />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="location">Location / Area</label>
+            <input type="text" id="location" name="location" />
+          </div>
+          <input type="hidden" name="time" />
+
+          <div class="form-group">
+            <label for="propertyType">Type of Property</label>
+            <select id="propertyType" name="propertyType" required>
+              <option value disabled selected>Select type</option>
+              <option value="Apartment">Apartment</option>
+              <option value="Villa">Villa</option>
+              <option value="Office">Office</option>
+              <option value="Retail">Retail</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit">Submit</button>
+        <div id="msg" class="success-msg"></div>
+      </form>
+
+      <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+      <script>
+  (function () {
+    emailjs.init("7GrVCE3bVfF9rIh4Q"); // Your Public Key
+  })();
+
+  document.getElementById("leadForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    // Set the current timestamp into the hidden input
+    const timeInput = this.querySelector("input[name='time']");
+    if (timeInput) {
+      timeInput.value = new Date().toLocaleString();
+    }
+
+    const msg = document.getElementById("msg");
+
+    emailjs
+      .sendForm("service_yj7u0s8", "template_0ux6rxx", this)
+      .then(() => {
+        msg.textContent = "Form submitted successfully!";
+        msg.className = "success-msg";
+        this.reset();
+      })
+      .catch((error) => {
+        msg.textContent = "Failed to send. Please try again!";
+        msg.className = "error-msg";
+        console.error("EmailJS Error:", error);
+      });
+  });
+</script>
+
     </section>
     <section class="page-width section-2" id="section-2">
       <div class="carousel-container">
