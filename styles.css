@@ -240,6 +240,32 @@ header svg {
     width: 100%;
 }
 
+.section-1-usp-list {
+    display: flex;
+    width: 100%;
+    align-items: start;
+    justify-content: start;
+    color: #fff;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+.section-1-usp-list li{
+font-family: "CabinetGrotesk-Medium", sans-serif;
+    font-size: 1rem;
+    font-weight: 100;
+    list-style: none;
+    padding: 10px 20px;
+    text-align: center;
+    background-color: #255849;
+    border-radius: 30px;
+    margin: 0;
+    transition: all ease-in .2s;
+}
+.section-1-usp-list li:hover{
+    color: #255849;
+    background-color: #f9f8f0;
+}
 .section-1 h1 {
     font-family: "CabinetGrotesk-Bold", sans-serif;
     text-align: left;
@@ -1013,12 +1039,12 @@ h2.section-title {
     }
 
     .section-1 img:first-of-type {
-        height: 980px;
+        height: 1200px;
         width: auto;
     }
 
     .section-1 {
-        height: 980px;
+        height: 1200px;
         flex-direction: column;
         gap: 40px;
         width: calc(100% - 40px);
@@ -1028,7 +1054,10 @@ h2.section-title {
         width: 80%;
         align-items: center;
     }
-
+.section-1-usp-list{
+    justify-content: center;
+    text-wrap: nowrap;
+}
     header svg {
         width: 160px;
     }
