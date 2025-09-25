@@ -1336,7 +1336,7 @@ h2.section-title {
     }
 
     .section-3 {
-        margin-bottom: 50px;
+        margin-bottom: 150px;
     }
 
     .our-story-content h2 {
@@ -1397,7 +1397,7 @@ h2.section-title {
     }
 
     .our-story-section {
-        padding-bottom: 150px;
+        padding-bottom: 50px;
     }
 
     h2.section-title {
@@ -1451,4 +1451,5 @@ h2.section-title {
     .header-logo-parent-a {
         width: 130px;
     }
+
 }
