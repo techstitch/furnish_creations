@@ -287,11 +287,30 @@ header svg {
 .section-1 p {
     font-family: "CabinetGrotesk-Regular", sans-serif;
     text-align: left;
-    font-size: .9rem;
-    color: #f9f8f0;
+    font-size: 1.1rem;
     width: 100%;
-    font-weight: 200;
+    font-weight: 300;
     letter-spacing: 0;
+    opacity: 1;
+    color: #f9f8f0;
+}
+.fading-anim{
+    /* animation: blink 1.3s infinite; */
+    font-weight: 600;
+    text-decoration: underline;
+}
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: .4;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 .section-1 button {
@@ -337,9 +356,10 @@ header svg {
     width: 110%;
     left: 51%;
     top: 48%;
-    opacity: .3;
+    opacity: 0;
     transform: translate(-50%, -50%) rotate(6deg);
 }
+
 
 .carousel-card {
     flex: 0 0 auto;
@@ -751,6 +771,7 @@ footer {
     gap: 20px;
     font-size: 1.1rem;
 }
+
 .section-1 a {
     background-color: #f9f8f0;
     color: #255849;
@@ -769,6 +790,7 @@ footer {
     color: #f9f8f0;
     transition: all 0.3s ease;
 }
+
 .footer-links a {
     color: #fff;
 }
