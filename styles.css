@@ -681,23 +681,41 @@ header svg {
 
 .gallery-display .image-collection {
     display: none;
-    grid-template-columns: repeat(3, 1fr);
+    /* row-first masonry using CSS grid and dense packing */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-auto-rows: 15px; /* small base row height for manual span calculation */
+    grid-auto-flow: dense; /* fill holes by reordering when items span multiple rows */
     gap: 15px;
 }
 
 .gallery-display .image-collection.active {
-    display: grid;
+    display: grid; /* use grid for row-first layout */
 }
 
 .image-collection img {
     width: 100%;
-    aspect-ratio: 1 / 1;
     height: auto;
     object-fit: cover;
     border-radius: 8px;
     display: block;
+    /* prevent images from breaking across columns and
+       add spacing below for column flow */
+    break-inside: avoid;
+    margin-bottom: 15px;
 }
 
+/* responsive adjustments for grid columns */
+@media (max-width: 1000px) {
+    .gallery-display .image-collection {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .gallery-display .image-collection {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
 
 .rotating-badge-wrapper {
     position: absolute;
@@ -1225,10 +1243,6 @@ h2.section-title {
 }
 
 @media(max-width:756px) {
-    .image-collection img {
-        aspect-ratio: unset;
-    }
-
     .policy-page {
         margin-top: 50px;
         margin-bottom: 50px;

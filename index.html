@@ -804,6 +804,39 @@ activeTabInfo.style.top = `${tabs[0].offsetTop}px`;
       button.classList.add("active");
       const target = button.getAttribute("data-gallery");
       document.querySelector(`.image-collection[data-gallery="${target}"]`).classList.add("active");
+
+      // recompute spans when gallery switches
+      resizeAllGridItems();
+    });
+  });
+
+  // helper to calculate and apply grid-row-end span based on height
+  function resizeAllGridItems() {
+    document.querySelectorAll(".image-collection").forEach(grid => {
+      const rowHeight = parseInt(getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
+      const rowGap = parseInt(getComputedStyle(grid).getPropertyValue('gap'));
+      grid.querySelectorAll('img').forEach(item => {
+        const height = item.getBoundingClientRect().height;
+        const rowSpan = Math.ceil((height + rowGap) / (rowHeight + rowGap));
+        item.style.gridRowEnd = `span ${rowSpan}`;
+      });
+    });
+  }
+
+  // run on load and resize
+  window.addEventListener('load', resizeAllGridItems);
+  window.addEventListener('resize', resizeAllGridItems);
+
+  // also adjust as each image finishes loading
+  document.querySelectorAll('.image-collection img').forEach(img => {
+    img.addEventListener('load', () => {
+      const grid = img.closest('.image-collection');
+      if (!grid) return;
+      const rowHeight = parseInt(getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
+      const rowGap = parseInt(getComputedStyle(grid).getPropertyValue('gap'));
+      const height = img.getBoundingClientRect().height;
+      const rowSpan = Math.ceil((height + rowGap) / (rowHeight + rowGap));
+      img.style.gridRowEnd = `span ${rowSpan}`;
     });
   });
 </script>
