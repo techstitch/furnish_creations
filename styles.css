@@ -460,7 +460,7 @@ header svg {
 /* Section 3 */
 .section-3 {
     position: relative;
-    margin-bottom: 90px;
+    margin-bottom: 120px;
     background-size: cover;
     background-position: center;
     transition: background-image 1s ease-in-out;
@@ -556,7 +556,7 @@ header svg {
 }
 
 .quotation-section {
-    padding: 0 20px 50px;
+    padding: 0 20px 120px;
     background-color: #f9f9f9;
     text-align: center;
 }
@@ -683,13 +683,16 @@ header svg {
     display: none;
     /* row-first masonry using CSS grid and dense packing */
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    grid-auto-rows: 15px; /* small base row height for manual span calculation */
-    grid-auto-flow: dense; /* fill holes by reordering when items span multiple rows */
+    grid-auto-rows: 15px;
+    /* small base row height for manual span calculation */
+    grid-auto-flow: dense;
+    /* fill holes by reordering when items span multiple rows */
     gap: 15px;
 }
 
 .gallery-display .image-collection.active {
-    display: grid; /* use grid for row-first layout */
+    display: grid;
+    /* use grid for row-first layout */
 }
 
 .image-collection img {
@@ -992,7 +995,7 @@ footer {
 }
 
 .testimonial-section {
-    padding: 0 20px 90px;
+    padding: 0 20px 30px;
     position: relative;
 }
 
@@ -1032,11 +1035,12 @@ footer {
     overflow: hidden;
     cursor: grab;
     padding-bottom: 30px;
+    margin-top: -70px;
 }
 
 .testimonial-track {
     display: flex;
-    gap: 30px;
+    gap: 20px;
     will-change: transform;
 }
 
@@ -1249,8 +1253,16 @@ h2.section-title {
         padding-bottom: 0;
     }
 
+    .gallery-section {
+        padding: 150px 20px 50px;
+    }
+
+    .testimonial-track-wrapper {
+        margin-top: -40px;
+    }
+
     .testimonial-section {
-        padding: 0 20px 130px;
+        padding: 0 20px 10px;
     }
 
     .page-width {
