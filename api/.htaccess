@@ -1,0 +1,39 @@
+# Only the *.php endpoints in this folder are meant to be reachable over the web.
+# config.php holds the database password; lib/ is internal plumbing.
+
+<FilesMatch "^config\.php$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+RedirectMatch 404 ^/api/lib(/|$)
+
+# Apache does not pass the Authorization header to PHP under CGI/FastCGI, which is how
+# most shared hosts run it. Without this the admin's sign-in token never arrives and
+# every editor action fails with "Not signed in".
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+</IfModule>
+<IfModule mod_setenvif.c>
+    SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+</IfModule>
+
+Options -Indexes
+
+# Uploads can be a few MB after the browser has already shrunk them. These apply on
+# hosts running mod_php; .user.ini in this folder covers hosts running PHP-FPM/CGI.
+<IfModule mod_php.c>
+    php_value upload_max_filesize 32M
+    php_value post_max_size 34M
+</IfModule>
+<IfModule mod_php7.c>
+    php_value upload_max_filesize 32M
+    php_value post_max_size 34M
+</IfModule>

@@ -1,0 +1,28 @@
+# Photos uploaded through the website editor land here. Nothing in this folder should
+# ever be executed — only read as an image or video. This is belt-and-braces: the
+# endpoint already refuses anything that is not a real photo or video file.
+
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+
+<FilesMatch "\.(php|phtml|php[0-9]|phar|cgi|pl|py|sh|html?|htaccess)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Serve exactly what the file claims to be, never a browser's guess.
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+</IfModule>
+
+Options -Indexes -ExecCGI
+AddHandler default-handler .php .phtml .cgi .pl .py

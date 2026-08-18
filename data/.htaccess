@@ -1,0 +1,32 @@
+# The page content lives here as content.json. Visitors' browsers fetch that file
+# directly — it is the website's own text, so it is public by nature — but nothing else
+# in this folder should be reachable. That emphatically includes sessions/, which holds
+# the signed-in admin's session files.
+
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+</IfModule>
+
+<Files "content.json">
+    <IfModule mod_authz_core.c>
+        Require all granted
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Allow from all
+    </IfModule>
+</Files>
+
+# An edit must show up on the next page load, so this file is never cached. It is a few
+# kilobytes of JSON and gzips well, so revalidating every time costs almost nothing.
+<IfModule mod_headers.c>
+    <Files "content.json">
+        Header set Cache-Control "no-cache, must-revalidate"
+    </Files>
+</IfModule>
+
+Options -Indexes

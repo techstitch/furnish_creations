@@ -1,0 +1,120 @@
+# Furnish Creations — Apache config for shared hosting.
+# Replaces the things GitHub Pages used to do automatically: HTTPS, compression and
+# cache headers. Upload this to public_html alongside index.html.
+
+DirectoryIndex index.html index.php
+
+# No directory listings — Assets/ has ~200 files that need not be browsable.
+Options -Indexes
+
+# ----------------------------------------------------------------- HTTPS + host
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Force HTTPS. The X-Forwarded-Proto check matters because on shared hosting the
+    # request often reaches Apache from a proxy that already terminated TLS, in which
+    # case %{HTTPS} reads "off" and a naive rule would loop forever.
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+    RewriteCond %{HTTP:X-Forwarded-SSL} !=on
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+    # One canonical hostname, so analytics and search results do not split in two.
+    # Swap the two lines below if you would rather serve www. as the canonical host.
+    RewriteCond %{HTTP_HOST} ^www\.furnishcreations\.in$ [NC]
+    RewriteRule ^ https://furnishcreations.in%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+# ------------------------------------------------------------------- MIME types
+# type="module" scripts are refused outright if the server sends the wrong type,
+# which would take the whole editor and the CMS loader down.
+<IfModule mod_mime.c>
+    AddType text/javascript              .js .mjs
+    AddType text/css                     .css
+    AddType image/svg+xml                .svg
+    AddType image/webp                   .webp
+    AddType font/woff                    .woff
+    AddType font/woff2                   .woff2
+    AddType font/ttf                     .ttf
+    AddType font/otf                     .otf
+    AddType application/vnd.ms-fontobject .eot
+    AddType video/mp4                    .mp4
+    AddType video/webm                   .webm
+</IfModule>
+
+# ------------------------------------------------------------------ compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript
+    AddOutputFilterByType DEFLATE application/javascript application/json
+    AddOutputFilterByType DEFLATE image/svg+xml application/xml
+    # data/content.json is the biggest text file the public site fetches, and it is the
+    # one on the critical path for rendering — compressing it matters more than the CSS.
+    # Images and video are already compressed; re-encoding them just burns CPU.
+</IfModule>
+<IfModule mod_brotli.c>
+    AddOutputFilterByType BROTLI_COMPRESS text/html text/css text/javascript
+    AddOutputFilterByType BROTLI_COMPRESS application/javascript application/json
+    AddOutputFilterByType BROTLI_COMPRESS image/svg+xml
+</IfModule>
+
+# ----------------------------------------------------------------------- caching
+<IfModule mod_expires.c>
+    ExpiresActive On
+
+    # Photos and fonts are content-addressed by name — an edit produces a new filename,
+    # so they can be cached hard.
+    ExpiresByType image/jpeg             "access plus 1 year"
+    ExpiresByType image/png              "access plus 1 year"
+    ExpiresByType image/gif              "access plus 1 year"
+    ExpiresByType image/webp             "access plus 1 year"
+    ExpiresByType image/svg+xml          "access plus 1 year"
+    ExpiresByType video/mp4              "access plus 1 year"
+    ExpiresByType video/webm             "access plus 1 year"
+    ExpiresByType font/woff              "access plus 1 year"
+    ExpiresByType font/woff2             "access plus 1 year"
+    ExpiresByType font/ttf               "access plus 1 year"
+    ExpiresByType font/otf               "access plus 1 year"
+    ExpiresByType application/vnd.ms-fontobject "access plus 1 year"
+
+    # CSS and JS keep their names across edits, so a long cache would strand visitors
+    # on an old copy after a deploy. A day is the compromise.
+    ExpiresByType text/css               "access plus 1 day"
+    ExpiresByType text/javascript        "access plus 1 day"
+    ExpiresByType application/javascript "access plus 1 day"
+
+    # The page itself must always be revalidated, or a content edit stays invisible.
+    ExpiresByType text/html              "access plus 0 seconds"
+</IfModule>
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.(html)$">
+        Header set Cache-Control "no-cache, must-revalidate"
+    </FilesMatch>
+
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set X-Frame-Options "SAMEORIGIN"
+
+    # Fonts are same-origin here, but a stray crossorigin fetch should still succeed.
+    <FilesMatch "\.(woff2?|ttf|otf|eot)$">
+        Header set Access-Control-Allow-Origin "*"
+    </FilesMatch>
+</IfModule>
+
+# ------------------------------------------------------------- hide dev leftovers
+<FilesMatch "^(SETUP\.md|README\.md|\.gitignore|.*\.rules|.*\.sql)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^\.git - [F,L]
+</IfModule>
+
+ErrorDocument 404 /404.html

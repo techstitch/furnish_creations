@@ -18,15 +18,11 @@
     })(window, document, 'script', 'dataLayer', 'GTM-WPP46B8P');</script>
   <!-- End Google Tag Manager -->
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap"
-    rel="stylesheet">
+  <link rel="stylesheet" href="Fonts/google/fonts.css">
   <link rel="stylesheet" href="styles.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
+  <script src="Scripts/gsap.min.js"></script>
+  <script src="Scripts/ScrollTrigger.min.js"></script>
+  <script src="Scripts/Draggable.min.js"></script>
   <script type="text/javascript">
     (function (c, l, a, r, i, t, y) {
       c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
@@ -58,44 +54,50 @@
             fill="#F9F8F0" />
         </svg></a>
       <div class="header-ctas">
-        <a href="tel:+918700322846" target="_blank" class="header_cta_call">Call
-          Us</a>
-        <a href="https://wa.me/918700322846?text=Hi" target="_blank" class="header_cta_whatsapp">WhatsApp Us</a>
+        <a href="tel:+918700322846" target="_blank" class="header_cta_call" data-tel-link
+          data-analytics-type="call_click" data-analytics-label="header"><span
+            data-contact-label="call">Call Us</span></a>
+        <a href="https://wa.me/918700322846?text=Hi" target="_blank" class="header_cta_whatsapp" data-whatsapp-link
+          data-analytics-type="whatsapp_click" data-analytics-label="header"><span
+            data-contact-label="whatsapp">WhatsApp Us</span></a>
       </div>
     </div>
   </header>
 
-  <a class="fixed-whatsapp-cta" href="https://wa.me/918700322846?text=Hi" target="_blank" rel="noopener noreferrer">
+  <a class="fixed-whatsapp-cta" href="https://wa.me/918700322846?text=Hi" target="_blank" rel="noopener noreferrer"
+    data-whatsapp-link data-analytics-type="whatsapp_click" data-analytics-label="floating">
     <img src="Assets/WhatsApp.svg" alt="WhatsApp Icon">
-    <span>Chat us</span>
+    <span data-cms="floating-whatsapp-label">Chat us</span>
   </a>
   <section class="page-width section-1" id="homeSection">
-    <img src="Assets/2150794641 (1).jpg">
+    <img src="Assets/2150794641 (1).jpg" data-cms="hero-image">
     <div class="section-1-content_1">
-      <img class="image_2" src="Assets/dark-green-watercolor-brush-stroke-paint-png_806326-2446 (1).png">
-      <h1 class="fade-in">
+      <img class="image_2" src="Assets/dark-green-watercolor-brush-stroke-paint-png_806326-2446 (1).png"
+        data-cms="hero-brush">
+      <h1 class="fade-in" data-cms="hero-heading">
         Sofa Repair & Upholstery Change Services in Gurugram
       </h1>
       <p class="fade-in">
-        Looking for a reliable sofa repair service near you?
-        Furnish Creation restores
-        <span class="fading-anim">
+        <span data-cms="hero-paragraph-prefix">Looking for a reliable sofa repair service near you?
+          Furnish Creation restores</span>
+        <span class="fading-anim" data-cms="hero-highlight">
           Sofas, Chairs, Recliners, Beds, Curtains, & Soft Furnishings
         </span>
-        — at your doorstep or in our workshop.
+        <span data-cms="hero-paragraph-suffix">— at your doorstep or in our workshop.</span>
       </p>
 
-      <a class="fade-in">
+      <a class="fade-in" data-cms="hero-badge">
         Leather Sofa Upholstery Change
       </a>
-      <ul class="section-1-usp-list fade-in">
+      <ul class="section-1-usp-list fade-in" data-cms="hero-usp-list">
         <li>New Sofas, Recliners, Beds On Order</li>
         <li>Recliner Upholstery Change</li>
         <li>Best Quality of Sofa Fabrics</li>
         <li>5 Year Warranty at Site Location</li>
+      </ul>
     </div>
     <form class="lead-form" id="leadForm">
-      <h2>Quick Enquiry</h2>
+      <h2 data-cms="hero-form-heading">Quick Enquiry</h2>
 
       <label for="name">Full Name *</label>
       <input type="text" id="name" name="name" required />
@@ -132,39 +134,55 @@
         </div>
       </div>
 
-      <button type="submit">Submit</button>
+      <button type="submit" data-cms="hero-form-button">Submit</button>
       <div id="msg" class="success-msg"></div>
     </form>
 
-    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
-      (function () {
-        emailjs.init("7GrVCE3bVfF9rIh4Q"); // Your Public Key
-      })();
-
-      document.getElementById("leadForm").addEventListener("submit", function (e) {
+      // Posts to api/enquiry.php on this same server, which emails the enquiry and
+      // stores a copy in the database. No third-party service is involved.
+      document.getElementById("leadForm").addEventListener("submit", async function (e) {
         e.preventDefault();
 
-        // Set the current timestamp into the hidden input
-        const timeInput = this.querySelector("input[name='time']");
-        if (timeInput) {
-          timeInput.value = new Date().toLocaleString();
-        }
-
+        const form = this;
         const msg = document.getElementById("msg");
+        const button = form.querySelector("button[type='submit']");
+        const original = button.textContent;
 
-        emailjs
-          .sendForm("service_yj7u0s8", "template_0ux6rxx", this)
-          .then(() => {
-            msg.textContent = "Form submitted successfully!";
-            msg.className = "success-msg";
-            this.reset();
-          })
-          .catch((error) => {
-            msg.textContent = "Failed to send. Please try again!";
-            msg.className = "error-msg";
-            console.error("EmailJS Error:", error);
+        button.disabled = true;
+        button.textContent = "Sending…";
+        msg.textContent = "";
+
+        try {
+          const res = await fetch("api/enquiry.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: form.name.value,
+              phone: form.phone.value,
+              email: form.email.value,
+              location: form.location.value,
+              propertyType: form.propertyType.value,
+            }),
           });
+          const body = await res.json().catch(() => null);
+          if (!res.ok || !body || !body.ok) {
+            throw new Error((body && body.error) || "Please try again.");
+          }
+
+          msg.textContent = "Thank you — we'll be in touch shortly.";
+          msg.className = "success-msg";
+          document.dispatchEvent(new CustomEvent("cms:analytics", {
+            detail: { type: "cta_click", label: "lead_form_submit" }
+          }));
+          form.reset();
+        } catch (error) {
+          msg.textContent = error.message || "Could not send. Please try again.";
+          msg.className = "error-msg";
+        } finally {
+          button.disabled = false;
+          button.textContent = original;
+        }
       });
     </script>
 
@@ -172,7 +190,7 @@
   <section class="page-width testimonial-section" id="testimonials">
     <!-- <h2 class="section-title">What Our Clients Say</h2> -->
     <div class="testimonial-track-wrapper">
-      <div class="testimonial-track">
+      <div class="testimonial-track" data-cms="testimonial-track">
         <div class="testimonial">
           <div class="testimonials-tracker_profile-container">
 
@@ -293,8 +311,8 @@
 
   <section class="fade-in quotation-section" id="section-3">
     <div class="quotation-content">
-      <h2>Why Replace When You Can Repair for Less?</h2>
-      <p>
+      <h2 data-cms="quotation-heading">Why Replace When You Can Repair for Less?</h2>
+      <p data-cms="quotation-paragraph">
         Is your sofa sagging, your chair wobbly, or your leather cracked?
         Stop spending on replacements.
         At Furnish Creation, we specialize in <strong>sofa repairing,
@@ -307,15 +325,16 @@
         <strong>faster and more cost-effective than buying new.</strong>
       </p>
 
-      <a href="https://wa.me/918700322846?text=Hi" target="_blank" rel="noopener noreferrer" class="whatsapp-cta">
+      <a href="https://wa.me/918700322846?text=Hi" target="_blank" rel="noopener noreferrer" class="whatsapp-cta"
+        data-whatsapp-link data-analytics-type="whatsapp_click" data-analytics-label="quotation">
         <img src="Assets/WhatsApp.svg" alt="WhatsApp Icon">
-        Chat Now – Fix It Today!
+        <span data-cms="quotation-cta-label">Chat Now – Fix It Today!</span>
       </a>
     </div>
   </section>
   <section class="page-width section-2" id="section-2">
     <div class="carousel-container">
-      <div class="fade-in carousel-track">
+      <div class="fade-in carousel-track" data-cms="carousel-track">
         <div class="carousel-card"><img draggable="false" src="Assets/Section 2/1.jpg" /></div>
         <div class="carousel-card"><img draggable="false" src="Assets/Section 2/2.jpg" /></div>
         <div class="carousel-card"><img draggable="false" src="Assets/Section 2/3.jpg" /></div>
@@ -329,7 +348,7 @@
       </div>
     </div>
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
+      window.initSection2Carousel = function () {
         const container = document.querySelector(".carousel-container");
         const track = document.querySelector(".carousel-track");
         const cards = Array.from(track.children);
@@ -431,20 +450,18 @@
           };
           requestAnimationFrame(decay);
         }
-      });
+      };
     </script>
   </section>
   <section class="fade-in section-3" id="furnishSection">
-    <h2 class="section-heading-white-bg">All-in-One Sofa Repair &
+    <h2 class="section-heading-white-bg" data-cms="tabs-heading">All-in-One Sofa Repair &
       Restoration</h2>
     <div class="tabs">
-      <div class="page-width tab-list">
+      <div class="page-width tab-list" data-cms="tab-list">
         <div class="tab" data-tab="sofas">SOFAS</div>
         <div class="tab" data-tab="recliners">RECLINERS</div>
         <div class="tab" data-tab="chairs">CHAIRS</div>
         <div class="tab" data-tab="beds">BEDS</div>
-        <!-- <div class="tab" data-tab="office">OFFICE</div> 
-            <div class="tab" data-tab="interior">INTERIOR</div> -->
       </div>
 
       <!-- Active tab + tab-info overlay wrapper -->
@@ -463,13 +480,7 @@
     </div>
 
     <script>
-      const tabs = document.querySelectorAll(".tab");
-      const tabInfo = document.getElementById("tabInfo");
-      const activeTabLabel = document.getElementById("activeTabLabel");
-      const activeTabInfo = document.getElementById("activeTabInfo");
-      const section = document.getElementById("furnishSection");
-
-      const tabData = {
+      const defaultTabData = {
         sofas: {
           bg: "Assets/Section 3/SOFA.jpg",
           label: "SOFAS",
@@ -502,101 +513,117 @@
         }
       };
 
-      let currentTab = 0;
-      const tabKeys = Object.keys(tabData);
+      window.initTabsSection = function () {
+        const tabData = window.__cmsTabData || defaultTabData;
+        const tabs = document.querySelectorAll(".tab");
+        const tabInfo = document.getElementById("tabInfo");
+        const activeTabLabel = document.getElementById("activeTabLabel");
+        const activeTabInfo = document.getElementById("activeTabInfo");
+        const section = document.getElementById("furnishSection");
 
-      function activateTab(key) {
-        tabs.forEach(tab => tab.classList.remove("active"));
-        const activeTab = document.querySelector(`[data-tab='${key}']`);
-        activeTab.classList.add("active");
+        const tabKeys = Object.keys(tabData).filter(key =>
+          document.querySelector(`[data-tab='${key}']`)
+        );
+        if (!tabKeys.length) return;
+        let currentTab = 0;
 
-        // Update content
-        tabInfo.innerHTML = `<p>${tabData[key].content}</p>`;
-        activeTabLabel.textContent = tabData[key].label;
+        function activateTab(key) {
+          tabs.forEach(tab => tab.classList.remove("active"));
+          const activeTab = document.querySelector(`[data-tab='${key}']`);
+          activeTab.classList.add("active");
 
-        // Animate background
-        gsap.to(section, {
-          duration: 1,
-          backgroundImage: `url('${tabData[key].bg}')`
-        });
+          // Update content
+          tabInfo.innerHTML = `<p>${tabData[key].content}</p>`;
+          activeTabLabel.textContent = tabData[key].label;
 
-        // Move the .active-tab-info element right after the active tab
-        if (window.innerWidth < 769) {
-          const tabList = document.querySelector(".tab-list");
-          tabList.parentNode.insertBefore(activeTabInfo, activeTab.nextSibling);
-        } else {
-          const topOffset = activeTab.offsetTop;
-          activeTabInfo.style.top = `${topOffset}px`;
+          // Animate background
+          gsap.to(section, {
+            duration: 1,
+            backgroundImage: `url('${tabData[key].bg}')`
+          });
+
+          // Move the .active-tab-info element right after the active tab
+          if (window.innerWidth < 769) {
+            const tabList = document.querySelector(".tab-list");
+            tabList.parentNode.insertBefore(activeTabInfo, activeTab.nextSibling);
+          } else {
+            const topOffset = activeTab.offsetTop;
+            activeTabInfo.style.top = `${topOffset}px`;
+          }
         }
-      }
 
-
-      tabs.forEach(tab => {
-        tab.addEventListener("click", () => {
-          const key = tab.dataset.tab;
-          activateTab(key);
-          currentTab = tabKeys.indexOf(key);
+        tabs.forEach(tab => {
+          tab.addEventListener("click", () => {
+            const key = tab.dataset.tab;
+            activateTab(key);
+            currentTab = tabKeys.indexOf(key);
+            document.dispatchEvent(new CustomEvent("cms:analytics", {
+              detail: { type: "generic_click", label: `tab:${key}` }
+            }));
+          });
         });
-      });
 
-      // Auto cycle
-      setInterval(() => {
-        currentTab = (currentTab + 1) % tabKeys.length;
-        activateTab(tabKeys[currentTab]);
-      }, 6000);
+        // Auto cycle
+        setInterval(() => {
+          currentTab = (currentTab + 1) % tabKeys.length;
+          activateTab(tabKeys[currentTab]);
+        }, 6000);
 
-      // Initial state
-      section.style.backgroundImage = `url('${tabData.sofas.bg}')`;
-      activeTabInfo.style.top = `${tabs[0].offsetTop}px`;
+        // Initial state
+        section.style.backgroundImage = `url('${tabData[tabKeys[0]].bg}')`;
+        activeTabInfo.style.top = `${tabs[0].offsetTop}px`;
+      };
     </script>
-    <a href="https://wa.me/918700322846?text=Hi" target="_blank" rel="noopener noreferrer" class="whatsapp-cta-2">
+    <a href="https://wa.me/918700322846?text=Hi" target="_blank" rel="noopener noreferrer" class="whatsapp-cta-2"
+      data-whatsapp-link data-analytics-type="whatsapp_click" data-analytics-label="tabs">
       <img src="Assets/WhatsApp.svg" alt="WhatsApp Icon">
-      Request Your Free Estimate Now
+      <span data-cms="tabs-cta-label">Request Your Free Estimate Now</span>
     </a>
   </section>
 
   <script>
-    const track = document.querySelector(".testimonial-track");
-    const wrapper = document.querySelector(".testimonial-track-wrapper");
+    window.initTestimonialsCarousel = function () {
+      const track = document.querySelector(".testimonial-track");
 
-    // Duplicate items for seamless infinite scroll
-    const testimonials = gsap.utils.toArray(".testimonial");
-    testimonials.forEach(t => {
-      const clone = t.cloneNode(true);
-      track.appendChild(clone);
-    });
+      // Duplicate items for seamless infinite scroll
+      const testimonials = gsap.utils.toArray(".testimonial");
+      testimonials.forEach(t => {
+        const clone = t.cloneNode(true);
+        track.appendChild(clone);
+      });
 
-    let x = 0;
-    let speed = 0.5;
+      let x = 0;
+      let speed = 0.5;
 
-    function animateTrack() {
-      x -= speed;
-      if (Math.abs(x) >= track.scrollWidth / 2) {
-        x = 0;
+      function animateTrack() {
+        x -= speed;
+        if (Math.abs(x) >= track.scrollWidth / 2) {
+          x = 0;
+        }
+        gsap.set(track, { x });
+        requestAnimationFrame(animateTrack);
       }
-      gsap.set(track, { x });
-      requestAnimationFrame(animateTrack);
-    }
 
-    animateTrack();
+      animateTrack();
 
-    Draggable.create(track, {
-      type: "x",
-      inertia: true,
-      onPress() {
-        speed = 0;
-      },
-      onDrag() {
-        x = this.x;
-      },
-      onRelease() {
-        speed = 0.5;
-      }
-    });
+      Draggable.create(track, {
+        type: "x",
+        inertia: true,
+        onPress() {
+          speed = 0;
+        },
+        onDrag() {
+          x = this.x;
+        },
+        onRelease() {
+          speed = 0.5;
+        }
+      });
+    };
   </script>
   <section class="fade-in page-width gallery-section" id="seeOurWork">
 
-    <div class="category-buttons">
+    <div class="category-buttons" data-cms="gallery-buttons">
       <div class="rotating-badge-wrapper">
         <svg class="rotating-badge" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
           <polygon fill="#79a799" points="
@@ -607,17 +634,19 @@
       10,100 30,80 15,60 40,55 35,30 60,35
       65,10 88,22" />
         </svg>
-        <div class="badge-text">See Our Work</div>
+        <div class="badge-text" data-cms="gallery-badge">See Our Work</div>
       </div>
-      <button class="category-btn active" data-gallery="Sofas">Sofas</button>
-      <button class="category-btn" data-gallery="Recliners">Recliners</button>
-      <!-- <button class="category-btn" data-gallery="Interiors">Interiors</button> -->
-      <button class="category-btn" data-gallery="Chairs">Chairs</button>
-      <button class="category-btn" data-gallery="Beds">Beds</button>
-      <!-- <button class="category-btn" data-gallery="Offices">Offices</button> -->
+      <button class="category-btn active" data-gallery="Sofas" data-analytics-type="generic_click"
+        data-analytics-label="gallery:Sofas">Sofas</button>
+      <button class="category-btn" data-gallery="Recliners" data-analytics-type="generic_click"
+        data-analytics-label="gallery:Recliners">Recliners</button>
+      <button class="category-btn" data-gallery="Chairs" data-analytics-type="generic_click"
+        data-analytics-label="gallery:Chairs">Chairs</button>
+      <button class="category-btn" data-gallery="Beds" data-analytics-type="generic_click"
+        data-analytics-label="gallery:Beds">Beds</button>
     </div>
 
-    <div class=" gallery-display">
+    <div class=" gallery-display" data-cms="gallery-display">
       <div class="image-collection active" data-gallery="Sofas">
         <img src="Assets/Sofa 18-11/Sofa (3).jpeg" alt>
         <img src="Assets/Sofa 18-11/Sofa (5).jpeg" alt>
@@ -718,77 +747,80 @@
       </div>
     </div>
     <script>
-      const buttons = document.querySelectorAll(".category-btn");
-      const galleries = document.querySelectorAll(".image-collection");
+      window.initGallery = function () {
+        const buttons = document.querySelectorAll(".category-btn");
+        const galleries = document.querySelectorAll(".image-collection");
 
-      buttons.forEach(button => {
-        button.addEventListener("click", () => {
+        buttons.forEach(button => {
+          button.addEventListener("click", () => {
           // Remove active class
           buttons.forEach(btn => btn.classList.remove("active"));
           galleries.forEach(grid => grid.classList.remove("active"));
 
-          // Activate selected
-          button.classList.add("active");
-          const target = button.getAttribute("data-gallery");
-          document.querySelector(`.image-collection[data-gallery="${target}"]`).classList.add("active");
+            // Activate selected
+            button.classList.add("active");
+            const target = button.getAttribute("data-gallery");
+            document.querySelector(`.image-collection[data-gallery="${target}"]`).classList.add("active");
 
-          // recompute spans when gallery switches
-          resizeAllGridItems();
-        });
-      });
-
-      // helper to calculate and apply grid-row-end span based on height
-      function resizeAllGridItems() {
-        document.querySelectorAll(".image-collection").forEach(grid => {
-          const rowHeight = parseInt(getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
-          const rowGap = parseInt(getComputedStyle(grid).getPropertyValue('gap'));
-          grid.querySelectorAll('img').forEach(item => {
-            const height = item.getBoundingClientRect().height;
-            const rowSpan = Math.ceil((height + rowGap) / (rowHeight + rowGap));
-            item.style.gridRowEnd = `span ${rowSpan}`;
+            // recompute spans when gallery switches
+            resizeAllGridItems();
           });
         });
-      }
 
-      // run on load and resize
-      window.addEventListener('load', resizeAllGridItems);
-      window.addEventListener('resize', resizeAllGridItems);
+        // helper to calculate and apply grid-row-end span based on height
+        function resizeAllGridItems() {
+          document.querySelectorAll(".image-collection").forEach(grid => {
+            const rowHeight = parseInt(getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
+            const rowGap = parseInt(getComputedStyle(grid).getPropertyValue('gap'));
+            grid.querySelectorAll('img').forEach(item => {
+              const height = item.getBoundingClientRect().height;
+              const rowSpan = Math.ceil((height + rowGap) / (rowHeight + rowGap));
+              item.style.gridRowEnd = `span ${rowSpan}`;
+            });
+          });
+        }
 
-      // also adjust as each image finishes loading
-      document.querySelectorAll('.image-collection img').forEach(img => {
-        img.addEventListener('load', () => {
-          const grid = img.closest('.image-collection');
-          if (!grid) return;
-          const rowHeight = parseInt(getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
-          const rowGap = parseInt(getComputedStyle(grid).getPropertyValue('gap'));
-          const height = img.getBoundingClientRect().height;
-          const rowSpan = Math.ceil((height + rowGap) / (rowHeight + rowGap));
-          img.style.gridRowEnd = `span ${rowSpan}`;
+        // run now (content may already be loaded) and on resize
+        resizeAllGridItems();
+        window.addEventListener('load', resizeAllGridItems);
+        window.addEventListener('resize', resizeAllGridItems);
+
+        // also adjust as each image finishes loading
+        document.querySelectorAll('.image-collection img').forEach(img => {
+          img.addEventListener('load', () => {
+            const grid = img.closest('.image-collection');
+            if (!grid) return;
+            const rowHeight = parseInt(getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
+            const rowGap = parseInt(getComputedStyle(grid).getPropertyValue('gap'));
+            const height = img.getBoundingClientRect().height;
+            const rowSpan = Math.ceil((height + rowGap) / (rowHeight + rowGap));
+            img.style.gridRowEnd = `span ${rowSpan}`;
+          });
         });
-      });
+      };
     </script>
   </section>
   <section class="our-story-section" id="ourStory">
     <div class="page-width our-story-content">
-      <h2 class="fade-in">Our Story</h2>
-      <p class="fade-in">
+      <h2 class="fade-in" data-cms="story-heading">Our Story</h2>
+      <p class="fade-in" data-cms="story-p1">
         At Furnish Creations, we don’t just build sofa — we bring ideas
         to life. What started over 25 years ago as a passion for handcrafted
         design has grown into a trusted name in bespoke sofa solutions.
         Our work combines craftsmanship, creativity, and deep attention to
         detail to bring every client's vision to life.
       </p>
-      <div class="our-milestones">
+      <div class="our-milestones" data-cms="story-counters">
         <div class="milestone">
-          <div class="counter" data-target="25">0</div>
+          <div class="counter" data-target="25" data-suffix="+">0</div>
           <span>Years of Experience</span>
         </div>
         <div class="milestone">
-          <div class="counter" data-target="5000">0</div>
+          <div class="counter" data-target="5000" data-suffix="+">0</div>
           <span>Projects Completed</span>
         </div>
       </div>
-      <p class="fade-in">
+      <p class="fade-in" data-cms="story-p2">
         With over 5000 completed projects and a portfolio ranging from cozy
         apartments to full-scale interiors, our journey has always been
         driven
@@ -797,12 +829,12 @@
         it
         happen.
       </p>
-      <p class="fade-in">
+      <p class="fade-in" data-cms="story-p3">
         If you’d like to explore our materials, see our finishes up close,
         or
         have a conversation about your space:
       </p>
-      <ul>
+      <ul data-cms="story-bullets">
         <li>Complete repair service – Sofas, Beds, Recliners, Sofa loose
           covers & Ottomans.</li>
         <li>Skilled craftsmen – 25+ years of experience in wood, leather,
@@ -815,8 +847,8 @@
           warranty.</li>
       </ul>
       <div class="guarantee-section">
-        <h2 class="section-title">Sofa Restored, Comfort Guaranteed</h2>
-        <p>Whether it’s a <strong>sofa that’s lost its shape, a cabinet that
+        <h2 class="section-title" data-cms="guarantee-heading">Sofa Restored, Comfort Guaranteed</h2>
+        <p data-cms="guarantee-paragraph">Whether it’s a <strong>sofa that’s lost its shape, a cabinet that
             won’t close, or an antique that
             needs careful restoration,</strong> we handle it all with
           precision
@@ -824,7 +856,7 @@
             Gurugram’s trusted name for reliable sofa repair.</strong></p>
       </div>
 
-      <div class="map-section">
+      <div class="map-section" data-cms="map-section">
 
         <div class="map-block">
           <h3>Shop No.1 Sector 62 Ullawas Near Indira Gandhi Hospital Gurugram</h3>
@@ -855,11 +887,12 @@
     </div>
   </section>
   <script>
-    gsap.registerPlugin(ScrollTrigger);
+    window.initOurStoryAnimations = function () {
+      gsap.registerPlugin(ScrollTrigger);
 
-    const isMobile = window.innerWidth < 769;
+      const isMobile = window.innerWidth < 769;
 
-    if (!isMobile) {
+      if (!isMobile) {
       // Fade-in content
       gsap.utils.toArray(".fade-in").forEach(el => {
         gsap.from(el, {
@@ -875,78 +908,108 @@
         });
       });
 
-      // Slide in addresses
-      gsap.from(".fade-slide", {
-        scrollTrigger: {
-          trigger: "#ourStory",
-          start: "top 80%",
-        },
-        opacity: 0,
-        x: -50,
-        duration: 1,
-        delay: 0.6,
-        ease: "power3.out"
-      });
-    }
-
-    // ✅ Run counters on all devices
-    const counters = document.querySelectorAll(".counter");
-
-    counters.forEach(counter => {
-      const target = +counter.getAttribute("data-target");
-      const duration = 2;
-      const count = { value: 0 };
-
-      const animationOptions = {
-        value: target,
-        duration: duration,
-        ease: "power3.out",
-        onUpdate: () => {
-          counter.textContent = Math.floor(count.value);
-        },
-        onComplete: () => {
-          if (target === 25 || target === 5000) {
-            counter.textContent = `${target}+`;
-          }
-        }
-      };
-
-      // Use ScrollTrigger only on non-mobile
-      if (!isMobile) {
-        animationOptions.scrollTrigger = {
-          trigger: counter,
-          start: "top 90%",
-          once: true
-        };
+        // Slide in addresses
+        gsap.from(".fade-slide", {
+          scrollTrigger: {
+            trigger: "#ourStory",
+            start: "top 80%",
+          },
+          opacity: 0,
+          x: -50,
+          duration: 1,
+          delay: 0.6,
+          ease: "power3.out"
+        });
       }
 
-      gsap.to(count, animationOptions);
-    });
+      // ✅ Run counters on all devices
+      const counters = document.querySelectorAll(".counter");
+
+      counters.forEach(counter => {
+        const target = +counter.getAttribute("data-target");
+        const suffix = counter.getAttribute("data-suffix") || "";
+        const duration = 2;
+        const count = { value: 0 };
+
+        const animationOptions = {
+          value: target,
+          duration: duration,
+          ease: "power3.out",
+          onUpdate: () => {
+            counter.textContent = Math.floor(count.value);
+          },
+          onComplete: () => {
+            counter.textContent = `${target}${suffix}`;
+          }
+        };
+
+        // Use ScrollTrigger only on non-mobile
+        if (!isMobile) {
+          animationOptions.scrollTrigger = {
+            trigger: counter,
+            start: "top 90%",
+            once: true
+          };
+        }
+
+        gsap.to(count, animationOptions);
+      });
+    };
   </script>
   <footer>
     <div class="page-width footer-content">
       <div class="footer-logo">
         <img src="Assets/Group 1 (2).png" alt="Furnish Creations Logo">
       </div>
-      <div class="footer-links">
-        <a href="#furnishSection">What We Do</a>
+      <div class="footer-links" data-cms="footer-links">
+        <a href="#furnishSection" data-analytics-type="generic_click"
+          data-analytics-label="nav:What We Do">What We Do</a>
         <span>|</span>
-        <a href="#ourStory">Our Story</a>
+        <a href="#ourStory" data-analytics-type="generic_click" data-analytics-label="nav:Our Story">Our Story</a>
         <span>|</span>
-        <a href="#seeOurWork">See Our Work</a>
+        <a href="#seeOurWork" data-analytics-type="generic_click" data-analytics-label="nav:See Our Work">See Our
+          Work</a>
         <span>|</span>
-        <a href="policy.html">Our Policy</a>
+        <a href="policy.html" data-analytics-type="generic_click" data-analytics-label="nav:Our Policy">Our Policy</a>
         <span>|</span>
-        <a href="#homeSection">Go to Top</a>
+        <a href="#homeSection" data-analytics-type="generic_click" data-analytics-label="nav:Go to Top">Go to Top</a>
 
       </div>
       <div class="footer-contact">
         <div class="header-ctas">
-          <a href="tel:+918700322846" target="_blank" class="header_cta_call">Call
-            Us</a>
-          <a href="https://wa.me/918700322846?text=Hi" target="_blank" class="header_cta_whatsapp">WhatsApp Us</a>
+          <a href="tel:+918700322846" target="_blank" class="header_cta_call" data-tel-link
+            data-analytics-type="call_click" data-analytics-label="footer"><span
+              data-contact-label="call">Call Us</span></a>
+          <a href="https://wa.me/918700322846?text=Hi" target="_blank" class="header_cta_whatsapp" data-whatsapp-link
+            data-analytics-type="whatsapp_click" data-analytics-label="footer"><span
+              data-contact-label="whatsapp">WhatsApp Us</span></a>
         </div>
   </footer>
+
+  <script>
+    // The animation/carousel scripts above measure and clone the DOM, so they must run
+    // only after cms-loader.js has swapped in live content (it always fires this event,
+    // even when it falls back to the built-in copy).
+    var __started = false;
+    function startPageAnimations() {
+      if (__started) return;
+      __started = true;
+      window.initTestimonialsCarousel();
+      window.initSection2Carousel();
+      window.initTabsSection();
+      window.initGallery();
+      window.initOurStoryAnimations();
+    }
+
+    document.addEventListener("cms:hydrated", startPageAnimations, { once: true });
+
+    // Safety net. cms-loader.js fires the event above in every case, including failure —
+    // but only if the module loads at all. A blocked CDN, an offline visitor or a browser
+    // without ES modules would otherwise leave the page static forever, so start anyway.
+    setTimeout(startPageAnimations, 4000);
+  </script>
+  <script type="module" src="cms-loader.js"></script>
+  <script type="module" src="analytics-tracker.js"></script>
 </body>
 
 </html>

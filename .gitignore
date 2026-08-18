@@ -1,0 +1,8 @@
+# Local development overrides — never committed, never uploaded.
+api/config.local.php
+
+# Written at runtime on the server.
+data/content.json
+data/sessions/
+Assets/uploads/*
+!Assets/uploads/.htaccess
