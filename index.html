@@ -66,7 +66,7 @@
 
   <a class="fixed-whatsapp-cta" href="https://wa.me/918700322846?text=Hi" target="_blank" rel="noopener noreferrer"
     data-whatsapp-link data-analytics-type="whatsapp_click" data-analytics-label="floating">
-    <img src="Assets/WhatsApp.svg" alt="WhatsApp Icon">
+    <img src="Assets/WhatsApp.svg" alt="WhatsApp Icon" data-cms="whatsapp-icon">
     <span data-cms="floating-whatsapp-label">Chat us</span>
   </a>
   <section class="page-width section-1" id="homeSection">
@@ -99,31 +99,31 @@
     <form class="lead-form" id="leadForm">
       <h2 data-cms="hero-form-heading">Quick Enquiry</h2>
 
-      <label for="name">Full Name *</label>
+      <label for="name" data-cms="form-label-name">Full Name *</label>
       <input type="text" id="name" name="name" required />
 
       <div class="form-row">
         <div class="form-group">
-          <label for="phone">Phone Number *</label>
+          <label for="phone" data-cms="form-label-phone">Phone Number *</label>
           <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" />
         </div>
 
         <div class="form-group">
-          <label for="email">Email Address</label>
+          <label for="email" data-cms="form-label-email">Email Address</label>
           <input type="email" id="email" name="email" />
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label for="location">Location / Area</label>
+          <label for="location" data-cms="form-label-location">Location / Area</label>
           <input type="text" id="location" name="location" />
         </div>
         <input type="hidden" name="time" />
 
         <div class="form-group">
-          <label for="propertyType">Type of Property</label>
-          <select id="propertyType" name="propertyType" required>
+          <label for="propertyType" data-cms="form-label-property">Type of Property</label>
+          <select id="propertyType" name="propertyType" required data-cms="form-property-options">
             <option value disabled selected>Select type</option>
             <option value="Apartment">Apartment</option>
             <option value="Villa">Villa</option>
@@ -327,7 +327,7 @@
 
       <a href="https://wa.me/918700322846?text=Hi" target="_blank" rel="noopener noreferrer" class="whatsapp-cta"
         data-whatsapp-link data-analytics-type="whatsapp_click" data-analytics-label="quotation">
-        <img src="Assets/WhatsApp.svg" alt="WhatsApp Icon">
+        <img src="Assets/WhatsApp.svg" alt="WhatsApp Icon" data-cms="whatsapp-icon">
         <span data-cms="quotation-cta-label">Chat Now – Fix It Today!</span>
       </a>
     </div>
@@ -576,7 +576,7 @@
     </script>
     <a href="https://wa.me/918700322846?text=Hi" target="_blank" rel="noopener noreferrer" class="whatsapp-cta-2"
       data-whatsapp-link data-analytics-type="whatsapp_click" data-analytics-label="tabs">
-      <img src="Assets/WhatsApp.svg" alt="WhatsApp Icon">
+      <img src="Assets/WhatsApp.svg" alt="WhatsApp Icon" data-cms="whatsapp-icon">
       <span data-cms="tabs-cta-label">Request Your Free Estimate Now</span>
     </a>
   </section>
@@ -959,7 +959,7 @@
   <footer>
     <div class="page-width footer-content">
       <div class="footer-logo">
-        <img src="Assets/Group 1 (2).png" alt="Furnish Creations Logo">
+        <img src="Assets/Group 1 (2).png" alt="Furnish Creations Logo" data-cms="footer-logo">
       </div>
       <div class="footer-links" data-cms="footer-links">
         <a href="#furnishSection" data-analytics-type="generic_click"

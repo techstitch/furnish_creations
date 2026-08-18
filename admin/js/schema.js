@@ -4,6 +4,15 @@
 
 export const SCHEMA = [
   {
+    id: "brand",
+    label: "Logo & Icons",
+    blurb: "The logo in the footer and the WhatsApp icon used on the floating button.",
+    fields: [
+      { key: "footerLogo", label: "Footer logo", type: "media" },
+      { key: "whatsappIcon", label: "WhatsApp icon", type: "media" },
+    ],
+  },
+  {
     id: "contact",
     label: "Contact & Buttons",
     blurb: "Your phone number and the wording on the Call / WhatsApp buttons. Changing the number here updates every button on the site at once.",
@@ -30,6 +39,12 @@ export const SCHEMA = [
       { key: "badgeLabel", label: "Badge text", type: "text" },
       { key: "uspList", label: "Key points", type: "list-text", itemLabel: "Point" },
       { key: "formHeading", label: "Enquiry form heading", type: "text" },
+      { key: "formLabelName", label: "Form label — name", type: "text" },
+      { key: "formLabelPhone", label: "Form label — phone", type: "text" },
+      { key: "formLabelEmail", label: "Form label — email", type: "text" },
+      { key: "formLabelLocation", label: "Form label — location", type: "text" },
+      { key: "formLabelProperty", label: "Form label — property type", type: "text" },
+      { key: "formPropertyOptions", label: "Property type choices", type: "list-text", itemLabel: "Choice" },
       { key: "formButtonLabel", label: "Enquiry form button", type: "text" },
     ],
   },

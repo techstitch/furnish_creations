@@ -11,29 +11,13 @@
 // which is indistinguishable — correctly — from the fallback case.
 
 import DEFAULT_CONTENT from "./shared/default-content.js";
+import { deepMerge } from "./shared/deep-merge.js";
 
 const CONTENT_URL = "data/content.json";
 const FETCH_TIMEOUT_MS = 2500;
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
-
-function isPlainObject(v) {
-  return v !== null && typeof v === "object" && !Array.isArray(v);
-}
-
-// Live values win, but empty strings / empty arrays / missing keys fall back to defaults
-// so a half-filled admin form can never blank out a section of the live site.
-function deepMerge(base, override) {
-  if (override === undefined || override === null || override === "") return base;
-  if (Array.isArray(override)) return override.length ? override : base;
-  if (!isPlainObject(override) || !isPlainObject(base)) return override;
-  const out = { ...base };
-  for (const key of Object.keys(override)) {
-    out[key] = key in base ? deepMerge(base[key], override[key]) : override[key];
-  }
-  return out;
-}
 
 function withTimeout(promise, ms) {
   return Promise.race([
@@ -81,6 +65,13 @@ function renderContact(contact) {
   setText($("[data-cms='floating-whatsapp-label']"), contact.floatingLabel);
 }
 
+function renderBrand(brand) {
+  if (!brand) return;
+  setImg($("[data-cms='footer-logo']"), brand.footerLogo);
+  // The WhatsApp icon appears on the floating button and both header CTAs.
+  $$("[data-cms='whatsapp-icon']").forEach((el) => setImg(el, brand.whatsappIcon));
+}
+
 function renderHero(hero) {
   setImg($("[data-cms='hero-image']"), hero.heroImage);
   setImg($("[data-cms='hero-brush']"), hero.brushImage);
@@ -91,6 +82,25 @@ function renderHero(hero) {
   setText($("[data-cms='hero-badge']"), hero.badgeLabel);
   setText($("[data-cms='hero-form-heading']"), hero.formHeading);
   setText($("[data-cms='hero-form-button']"), hero.formButtonLabel);
+
+  setText($("[data-cms='form-label-name']"), hero.formLabelName);
+  setText($("[data-cms='form-label-phone']"), hero.formLabelPhone);
+  setText($("[data-cms='form-label-email']"), hero.formLabelEmail);
+  setText($("[data-cms='form-label-location']"), hero.formLabelLocation);
+  setText($("[data-cms='form-label-property']"), hero.formLabelProperty);
+
+  // The first choice stays the disabled placeholder, so the field still counts as
+  // unanswered until the visitor actually picks something.
+  const select = $("[data-cms='form-property-options']");
+  if (select && hero.formPropertyOptions && hero.formPropertyOptions.length) {
+    select.innerHTML = hero.formPropertyOptions
+      .map((opt, i) =>
+        i === 0
+          ? `<option value disabled selected>${escapeHtml(opt)}</option>`
+          : `<option value="${escapeAttr(opt)}">${escapeHtml(opt)}</option>`
+      )
+      .join("");
+  }
 
   const list = $("[data-cms='hero-usp-list']");
   if (list && hero.uspList && hero.uspList.length) {
@@ -265,6 +275,7 @@ function escapeAttr(str) {
 }
 
 function render(content) {
+  renderBrand(content.brand);
   renderContact(content.contact);
   renderHero(content.hero);
   renderTestimonials(content.testimonials);

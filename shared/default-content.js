@@ -5,6 +5,18 @@
 // Keep this in sync with index.html's literal markup if either is edited by hand.
 
 export const DEFAULT_CONTENT = {
+  "brand": {
+    "footerLogo": {
+      "id": "m0",
+      "url": "Assets/Group 1 (2).png",
+      "storagePath": null
+    },
+    "whatsappIcon": {
+      "id": "m0",
+      "url": "Assets/WhatsApp.svg",
+      "storagePath": null
+    }
+  },
   "contact": {
     "phone": "+918700322846",
     "whatsappNumber": "918700322846",
@@ -36,6 +48,19 @@ export const DEFAULT_CONTENT = {
       "5 Year Warranty at Site Location"
     ],
     "formHeading": "Quick Enquiry",
+    "formLabelName": "Full Name *",
+    "formLabelPhone": "Phone Number *",
+    "formLabelEmail": "Email Address",
+    "formLabelLocation": "Location / Area",
+    "formLabelProperty": "Type of Property",
+    "formPropertyOptions": [
+      "Select type",
+      "Apartment",
+      "Villa",
+      "Office",
+      "Retail",
+      "Other"
+    ],
     "formButtonLabel": "Submit"
   },
   "testimonials": [
