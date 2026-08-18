@@ -6,3 +6,6 @@ data/content.json
 data/sessions/
 Assets/uploads/*
 !Assets/uploads/.htaccess
+
+# Real config holds the DB password and admin hash — template only is tracked.
+api/config.php

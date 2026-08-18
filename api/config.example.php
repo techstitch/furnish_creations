@@ -1,7 +1,12 @@
 <?php
 /**
- * Server configuration. This file is never served over the web (see api/.htaccess) —
- * it holds the database password and the admin password hash.
+ * TEMPLATE. Copy this to api/config.php and fill it in:
+ *
+ *     cp api/config.example.php api/config.php
+ *
+ * api/config.php is deliberately NOT in version control — it holds the database
+ * password and the admin password hash, and those must never reach a git repository.
+ * This file is never served over the web either (see api/.htaccess).
  *
  * Fill in the four database values from cPanel → MySQL® Databases after you create the
  * database and user there. Everything else is already correct for this project.
@@ -35,7 +40,7 @@ defined('DB_PASS') || define('DB_PASS', 'REPLACE_ME_password');
 defined('ADMIN_EMAIL') || define('ADMIN_EMAIL', 'mohsinxaifi@gmail.com');
 defined('ADMIN_PASSWORD_HASH') || define(
     'ADMIN_PASSWORD_HASH',
-    '$2y$10$PTDwNX0oAJA.8yvSahaOyu4l4a/0uy8xElbajFRTAZRZCZ2KFhjjm'
+    'REPLACE_ME_run_the_command_below'
 );
 
 /* ---- Where lead-form enquiries are emailed ---------------------------------- */

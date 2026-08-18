@@ -69,6 +69,11 @@ cPanel → **MySQL® Databases**:
    **Copy that password now**, it is not shown again.
 3. **Add User To Database** — select both, then tick **ALL PRIVILEGES**.
 
+The upload bundle already contains `api/config.php`. (In the git repository only
+`api/config.example.php` is tracked — the real file is deliberately kept out of version
+control because it holds these passwords. If you are working from a git clone, run
+`cp api/config.example.php api/config.php` first.)
+
 Open `api/config.php` and fill in the four values:
 
 ```php
